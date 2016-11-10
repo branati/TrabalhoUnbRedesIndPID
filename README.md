@@ -12,4 +12,9 @@ http://webmachining.alvarestech.com/moodle/calendar/view.php?view=day&course=13&
 - Página do Overleaf que estamos desenvolvendo o artigo (Para baixar. O link de edição está no e-mail de vocês):
 https://git.overleaf.com/6868430smwswdkbhrsr
 
+- Referências de Apoio:
+
+- https://www.youtube.com/watch?v=X3xZYTCDRY4
+
+
 

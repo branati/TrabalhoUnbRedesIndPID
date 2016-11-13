@@ -15,6 +15,8 @@ https://git.overleaf.com/6868430smwswdkbhrsr
 - Referências de Apoio:
 
 - https://www.youtube.com/watch?v=X3xZYTCDRY4
+- https://www.mathworks.com/videos/pid-control-design-with-control-system-toolbox-68748.html
+
 
 
 

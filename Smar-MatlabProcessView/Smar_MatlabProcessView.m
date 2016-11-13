@@ -22,7 +22,7 @@ function varargout = Smar_MatlabProcessView(varargin)
 
 % Edit the above text to modify the response to help Smar_MatlabProcessView
 
-% Last Modified by GUIDE v2.5 31-Oct-2016 01:30:46
+% Last Modified by GUIDE v2.5 09-Nov-2016 21:55:17
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -298,12 +298,43 @@ function initOPCclient_Callback(hObject, eventdata, handles)
 %************************ Inicialização do OPC ****************************
 %**************************************************************************
 %XXXXXXXXXXXXXXXXX Creando um OPC Data Access Client Object XXXXXXXXXXXXXXX
-daDfi = opcda('164.41.17.129', 'Smar.DfiOleServer.0');
-daDf65=opcda('164.41.17.129', 'Smar.DF65Server.1');
+%daDfi = opcda('164.41.17.129', 'Smar.DfiOleServer.0');
+daDfi = opcda('localhost','Matrikon.OPC.Simulation.1');
+daDfi.Timeout = 100;
+
+%daDf65=opcda('164.41.17.129', 'Smar.DF65Server.1');
+%daDf65 = opcda('localhost','Matrikon.OPC.Simulation.1');
+%daDf65.Timeout = 100;
 %XXXXXXXXXXXXXXXXXXXX Conectando o Cliente com o Server XXXXXXXXXXXXXXXXXXX
 connect(daDfi);
-connect(daDf65);
+%connect(daDf65);
+grp_Dfi = addgroup(daDfi,'Analogs');
 
+%fit32ai = additem(grp_Dfi, 'FIT-32_AI1.OUT.VALUE','single');
+tit32ai = additem(grp_Dfi, 'TIT-32_AI1.OUT.VALUE','single');
+%fy32ao = additem(grp_Dfi, 'FY-32_AO1.OUT.VALUE','single');
+
+%Lendo os TAGs
+
+%fit32ai_r = read(fit32ai);
+tit = read(tit32ai);
+valor = tit.Value;
+%write(tit);
+if ~isempty(tit)
+    tit32ai_r = valor;
+else
+    tit32ai_r = 'Erro';
+end
+%tit32ai_r = 'teste';
+%fy32ao_r = read(fy32ao);
+
+%Pegando os valores das grandezas
+%set(handles.text98,'Int4',tit32ai_r);
+
+handles.output = hObject;
+guidata(hObject, handles);
+set(findobj(gcf,'Tag','text98'),'String',tit32ai_r);
+%fit32ai_valor = fit32ai_r.Value;
 
 % hObject    handle to initOPCclient (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -315,7 +346,7 @@ function logOff_Callback(hObject, eventdata, handles)
 % hObject    handle to logOff (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+close all;
 
 
 function edit1_Callback(hObject, eventdata, handles)
@@ -571,18 +602,17 @@ end
 
 
 
-function edit12_Callback(hObject, eventdata, handles)
-% hObject    handle to edit12 (see GCBO)
+function temp2_Callback(hObject, eventdata, handles)
+% hObject    handle to temp2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit12 as text
-%        str2double(get(hObject,'String')) returns contents of edit12 as a double
-
+% Hints: get(hObject,'String') returns contents of temp2 as text
+%        str2double(get(hObject,'String')) returns contents of temp2 as a double
 
 % --- Executes during object creation, after setting all properties.
-function edit12_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit12 (see GCBO)
+function temp2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to temp2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -686,3 +716,48 @@ function pushbutton40_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton40 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes during object creation, after setting all properties.
+function text98_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to text98 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+%grp_Dfi = addgroup(da_Dfi,'Analogs');
+
+%tit32ai = additem(grp_Dfi, 'TIT-32_AI1.OUT.VALUE','single');
+set(findobj(gcf,'Tag','text98'),'String',tit32ai_r);
+
+%Lendo os TAGs
+%tit32ai_r = read (tit32ai);
+
+
+%Pegando os valores das grandezas
+
+%tit32ai_valor = fit32ai_r.Value;
+%temp2 = fit32ai_valor;
+%set(handles.text98,'String','32');
+
+%fit32ai_valor = fit32ai_r.Value;
+
+
+% --- If Enable == 'on', executes on mouse press in 5 pixel border.
+% --- Otherwise, executes on mouse press in 5 pixel border or over initOPCclient.
+function initOPCclient_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to initOPCclient (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes during object creation, after setting all properties.
+function initOPCclient_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to initOPCclient (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function figure1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
